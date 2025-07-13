@@ -40,4 +40,7 @@ client.on('interactionCreate', async interaction => {
   }
 });
 
+const keepAlive = require('./keep_alive');
+keepAlive();
+
 client.login(process.env.DISCORD_TOKEN);
