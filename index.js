@@ -1,6 +1,7 @@
 // index.js
 require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
+const { DateTime } = require("luxon");
 
 const client = new Client({
   intents: [
@@ -13,21 +14,33 @@ client.once('ready', () => {
   console.log(`✅ บอทออนไลน์แล้ว: ${client.user.tag}`);
 });
 
-client.on('interactionCreate', async interaction => {
+client.on("interactionCreate", async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
-  if (interaction.commandName === 'kick') {
-    const member = interaction.options.getMember('user');
-    const timeStr = interaction.options.getString('time');
 
-    // แปลงเวลา
-    const now = new Date();
-    const [h, m] = timeStr.split(':').map(Number);
-    const kickTime = new Date();
-    kickTime.setHours(h, m, 0, 0);
-    if (kickTime <= now) kickTime.setDate(kickTime.getDate() + 1);
-    const delay = kickTime - now;
+  if (interaction.commandName === "kick") {
+    const member = interaction.options.getMember("user");
+    const timeStr = interaction.options.getString("time");
 
-    await interaction.reply(`⏰ จะเตะ ${member.displayName} ออกจาก voice เวลา ${kickTime.toLocaleTimeString()}`);
+    // แยกชั่วโมงกับนาที
+    const [h, m] = timeStr.split(":").map(Number);
+
+    // เวลาปัจจุบันใน Asia/Bangkok
+    const now = DateTime.now().setZone("Asia/Bangkok");
+
+    // เวลาที่ต้องการ kick ในวันเดียวกัน
+    let kickTime = now.set({ hour: h, minute: m, second: 0, millisecond: 0 });
+
+    // ถ้าเวลาที่เลือก <= เวลาปัจจุบัน ให้บวกเพิ่ม 1 วัน
+    if (kickTime <= now) {
+      kickTime = kickTime.plus({ days: 1 });
+    }
+
+    // คำนวณ delay เป็น milliseconds
+    const delay = kickTime.diff(now).as("milliseconds");
+
+    await interaction.reply(
+      `⏰ จะเตะ ${member.displayName} ออกจาก voice เวลา ${kickTime.toLocaleString(DateTime.TIME_24_SIMPLE)}`
+    );
 
     setTimeout(async () => {
       if (member.voice?.channel) {
