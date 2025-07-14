@@ -17,7 +17,7 @@ client.once('ready', () => {
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
-  if (interaction.commandName === "kick") {
+  if (interaction.commandName === "kamui") {
     const member = interaction.options.getMember("user");
     const timeStr = interaction.options.getString("time");
 

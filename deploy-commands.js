@@ -4,7 +4,7 @@ const { REST, Routes, SlashCommandBuilder } = require('discord.js');
 
 const commands = [
   new SlashCommandBuilder()
-    .setName('kick')
+    .setName('kamui')
     .setDescription('ใช้คามุยในเวลาที่กำหนด')
     .addUserOption(option =>
       option.setName('user')
