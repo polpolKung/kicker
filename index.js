@@ -39,15 +39,15 @@ client.on("interactionCreate", async (interaction) => {
     const delay = kickTime.diff(now).as("milliseconds");
 
     await interaction.reply(
-      `⏰ จะเตะ ${member.displayName} ออกจาก voice เวลา ${kickTime.toLocaleString(DateTime.TIME_24_SIMPLE)}`
+      `⏰ ${member.displayName} จะ "คามุย" ตอน ${kickTime.toLocaleString(DateTime.TIME_24_SIMPLE)}`
     );
 
     setTimeout(async () => {
       if (member.voice?.channel) {
         await member.voice.disconnect();
-        interaction.followUp(`✅ เตะ ${member.displayName} ออกจากห้องเสียงแล้ว`);
+        interaction.followUp(`✅ ${member.displayName} คามุยแล้ว`);
       } else {
-        interaction.followUp(`❌ ${member.displayName} ไม่ได้อยู่ใน voice channel`);
+        interaction.followUp(`❌ ${member.displayName} ไม่ได้อยู่ในห้อง`);
       }
     }, delay);
   }

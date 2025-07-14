@@ -5,14 +5,14 @@ const { REST, Routes, SlashCommandBuilder } = require('discord.js');
 const commands = [
   new SlashCommandBuilder()
     .setName('kick')
-    .setDescription('เตะผู้ใช้จาก voice channel ตามเวลาที่กำหนด')
+    .setDescription('ใช้คามุยในเวลาที่กำหนด')
     .addUserOption(option =>
       option.setName('user')
-        .setDescription('เลือกผู้ใช้')
+        .setDescription('เลือกคนที่จะ"คามุย"')
         .setRequired(true))
     .addStringOption(option =>
       option.setName('time')
-        .setDescription('เวลาที่จะเตะ เช่น 22:00')
+        .setDescription('เวลาที่จะ"คามุย" เช่น 22:00')
         .setRequired(true)),
 ].map(cmd => cmd.toJSON());
 
